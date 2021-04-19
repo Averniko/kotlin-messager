@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/main_navigation"
+    app:startDestination="@id/conversationListFragment">
+
+    <fragment
+        android:id="@+id/conversationListFragment"
+        android:name="com.averniko.messager.conversationlist.ConversationListFragment"
+        android:label="ConversationListFragment" >
+        <action
+            android:id="@+id/action_conversationListFragment_to_conversationFragment"
+            app:destination="@id/conversationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/conversationFragment"
+        android:name="com.averniko.messager.conversation.ConversationFragment"
+        android:label="ConversationFragment" >
+        <argument
+            android:name="interlocutor"
+            app:argType="string" />
+    </fragment>
+</navigation>
