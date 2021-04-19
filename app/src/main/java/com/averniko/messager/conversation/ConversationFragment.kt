@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.averniko.messager.R
+import com.averniko.messager.data.model.Message
 import com.averniko.messager.databinding.FragmentConversationBinding
 
 class ConversationFragment: Fragment() {
@@ -36,9 +37,14 @@ class ConversationFragment: Fragment() {
                 val conversation = conversations.find { conversation ->
                     conversation.interlocutor == args.interlocutor
                 }
-                adapter.data = conversation!!.messages
+                if (conversation != null)
+                    adapter.data = conversation.messages
             }
         })
+
+        binding.sendMessageButton.setOnClickListener {
+            viewModel.onSendMessage(Message(sender = "kek", receiver = args.interlocutor, text = binding.messageTextInput.text.toString()))
+        }
 
         return binding.root
     }

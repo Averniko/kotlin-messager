@@ -1,16 +1,27 @@
 package com.averniko.messager.data.login
 
+import android.os.AsyncTask
 import com.averniko.messager.data.Result
+import com.averniko.messager.data.conversations.ConversationsDataSource
+import com.averniko.messager.data.conversations.ConversationsRepository
 import com.averniko.messager.data.model.LoggedInUser
-
-/**
- * Class that requests authentication and user information from the remote data source and
- * maintains an in-memory cache of login status and user credentials information.
- */
+import java.lang.Exception
+import java.net.HttpURLConnection
+import java.net.URL
 
 class LoginRepository(val dataSource: LoginDataSource) {
 
-    // in-memory cache of the loggedInUser object
+    companion object {
+        private var instance: LoginRepository? = null
+
+        fun getInstance(dataSource: LoginDataSource): LoginRepository {
+            if (instance == null)
+                instance = LoginRepository(dataSource)
+
+            return instance!!
+        }
+    }
+
     var user: LoggedInUser? = null
         private set
 
@@ -18,8 +29,6 @@ class LoginRepository(val dataSource: LoginDataSource) {
         get() = user != null
 
     init {
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
         user = null
     }
 
@@ -29,19 +38,15 @@ class LoginRepository(val dataSource: LoginDataSource) {
     }
 
     fun login(username: String, password: String): Result<LoggedInUser> {
-        // handle login
         val result = dataSource.login(username, password)
 
         if (result is Result.Success) {
             setLoggedInUser(result.data)
         }
-
         return result
     }
 
     private fun setLoggedInUser(loggedInUser: LoggedInUser) {
         this.user = loggedInUser
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
     }
 }

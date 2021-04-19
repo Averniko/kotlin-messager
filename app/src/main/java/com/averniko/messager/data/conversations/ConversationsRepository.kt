@@ -3,19 +3,28 @@ package com.averniko.messager.data.conversations
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.averniko.messager.data.Result
+import com.averniko.messager.data.login.LoginDataSource
+import com.averniko.messager.data.login.LoginRepository
 import com.averniko.messager.data.model.Conversation
 import com.averniko.messager.data.model.Message
 
-class ConversationsRepository(val dataSource: ConversationsDataSource) {
+class ConversationsRepository private constructor(val dataSource: ConversationsDataSource) {
+
+    companion object {
+        private var instance: ConversationsRepository? = null
+
+        fun getInstance(dataSource: ConversationsDataSource): ConversationsRepository {
+            if (instance == null)
+                instance = ConversationsRepository(dataSource)
+
+            return instance!!
+        }
+    }
 
     private val _conversationList = MutableLiveData<List<Conversation>>()
     private val conversationList: LiveData<List<Conversation>> = _conversationList
 
-    init {
-        _conversationList.value = emptyList()
-    }
-
-    private fun loadConversations(): Result<List<Conversation>> {
+    fun loadConversations(): Result<List<Conversation>> {
         val result = dataSource.load()
 
         if (result is Result.Success<List<Conversation>>) {
@@ -42,12 +51,32 @@ class ConversationsRepository(val dataSource: ConversationsDataSource) {
         return result
     }
 
+    fun getMessages(interlocutor: String): Result<List<Message>> {
+        //loadMessages()
+        val c = conversationList.value?.find { conversation -> conversation.interlocutor == interlocutor }
+        return Result.Success(c!!.messages)
+    }
+
     fun getAllConversations(): LiveData<List<Conversation>> {
-        loadConversations()
         return this.conversationList
     }
 
+    fun addConversation(interlocutor: String) {
+        setConversationList(conversationList.value?.plus(Conversation(interlocutor, emptyList())))
+    }
+
+    fun sendMessage(message: Message) {
+        val resultList = conversationList.value?.map { conversation ->
+            if (conversation.interlocutor == message.receiver) {
+                conversation.messages = conversation.messages.plus(message)
+                return@map conversation
+            }
+            return@map conversation
+        }
+        setConversationList(resultList)
+    }
+
     private fun setConversationList(conversationList: List<Conversation>?) {
-        this._conversationList.value = conversationList
+        this._conversationList.postValue(conversationList)
     }
 }

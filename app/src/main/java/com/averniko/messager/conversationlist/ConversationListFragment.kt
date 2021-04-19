@@ -16,6 +16,9 @@ import com.averniko.messager.R
 import com.averniko.messager.data.conversations.ConversationsDataSource
 import com.averniko.messager.data.conversations.ConversationsRepository
 import com.averniko.messager.databinding.FragmentConversationListBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 
 class ConversationListFragment : Fragment() {
 
@@ -46,6 +49,10 @@ class ConversationListFragment : Fragment() {
             if (conversations != null)
                 adapter.data = conversations
         })
+
+        binding.addConversationButton.setOnClickListener {
+            viewModel.onAddConversation(binding.username.text.toString())
+        }
 
         return binding.root
     }

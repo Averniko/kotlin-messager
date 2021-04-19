@@ -11,7 +11,7 @@ class ConversationListViewModelFactory : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ConversationListViewModel::class.java)) {
             return ConversationListViewModel(
-                conversationsRepository = ConversationsRepository(
+                conversationsRepository = ConversationsRepository.getInstance(
                     dataSource = ConversationsDataSource()
                 )
             ) as T

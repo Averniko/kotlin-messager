@@ -2,20 +2,37 @@ package com.averniko.messager.data.login
 
 import com.averniko.messager.data.Result
 import com.averniko.messager.data.model.LoggedInUser
-import java.io.IOException
+import kotlinx.coroutines.*
+import org.json.JSONObject
+import java.io.OutputStreamWriter
+import java.net.HttpURLConnection
+import java.net.URL
 
-/**
- * Class that handles authentication w/ login credentials and retrieves user information.
- */
 class LoginDataSource {
 
+    val url = "http://192.168.0.101:8081/api/login"
+
     fun login(username: String, password: String): Result<LoggedInUser> {
+        var text: String
+        val connection = URL(url).openConnection() as HttpURLConnection
+        connection.requestMethod = "POST"
+        connection.setRequestProperty("Content-Type", "application/json; charset=utf-8")
+        val jsonInputString = "{\"login\": \"${username}\", \"password\": \"${password}\"}"
         try {
-            // TODO: handle loggedInUser authentication
-            val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
-            return Result.Success(fakeUser)
-        } catch (e: Throwable) {
-            return Result.Error(IOException("Error logging in", e))
+            val wr = OutputStreamWriter(connection.outputStream);
+            wr.write(jsonInputString)
+            wr.flush()
+            connection.connect()
+            text =
+                connection.inputStream.use { it.reader().use { reader -> reader.readText() } }
+            val token = JSONObject(text).getString("Token")
+            return Result.Success(LoggedInUser(username, token))
+        } catch (e: Exception) {
+            println(e)
+            return Result.Error(e)
+        }
+        finally {
+            connection.disconnect()
         }
     }
 

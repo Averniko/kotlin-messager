@@ -14,7 +14,7 @@ class ConversationViewModelFactory(
         if (modelClass.isAssignableFrom(ConversationViewModel::class.java)) {
             return ConversationViewModel(
                 interlocutor = interlocutor,
-                conversationsRepository = ConversationsRepository(
+                conversationsRepository = ConversationsRepository.getInstance(
                     dataSource = ConversationsDataSource()
                 )
             ) as T
