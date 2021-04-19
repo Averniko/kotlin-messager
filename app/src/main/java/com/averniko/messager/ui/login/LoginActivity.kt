@@ -15,11 +15,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
-import androidx.navigation.findNavController
-import com.averniko.login.ui.login.LoggedInUserView
-import com.averniko.login.ui.login.LoginViewModel
-import com.averniko.login.ui.login.LoginViewModelFactory
 import com.averniko.messager.MainActivity
 import com.averniko.messager.R
 

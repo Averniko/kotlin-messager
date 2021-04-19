@@ -1,8 +1,5 @@
-package com.averniko.login.ui.login
+package com.averniko.messager.ui.login
 
-/**
- * Authentication result : success (user details) or error message.
- */
 data class LoginResult(
         val success: LoggedInUserView? = null,
         val error: Int? = null

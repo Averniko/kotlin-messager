@@ -51,21 +51,21 @@ class ConversationsRepository private constructor(val dataSource: ConversationsD
         return result
     }
 
-    fun getMessages(interlocutor: String): Result<List<Message>> {
-        //loadMessages()
-        val c = conversationList.value?.find { conversation -> conversation.interlocutor == interlocutor }
-        return Result.Success(c!!.messages)
-    }
-
     fun getAllConversations(): LiveData<List<Conversation>> {
         return this.conversationList
     }
 
     fun addConversation(interlocutor: String) {
+        if (dataSource.addContact(interlocutor) is Result.Error) {
+            return
+        }
         setConversationList(conversationList.value?.plus(Conversation(interlocutor, emptyList())))
     }
 
     fun sendMessage(message: Message) {
+        if (dataSource.sendMessage(message) is Result.Error) {
+            return
+        }
         val resultList = conversationList.value?.map { conversation ->
             if (conversation.interlocutor == message.receiver) {
                 conversation.messages = conversation.messages.plus(message)

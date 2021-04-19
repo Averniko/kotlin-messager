@@ -1,14 +1,10 @@
-package com.averniko.login.ui.login
+package com.averniko.messager.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.averniko.messager.data.login.LoginDataSource
 import com.averniko.messager.data.login.LoginRepository
 
-/**
- * ViewModel provider factory to instantiate LoginViewModel.
- * Required given LoginViewModel has a non-empty constructor
- */
 class LoginViewModelFactory : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")

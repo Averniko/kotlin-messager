@@ -2,7 +2,6 @@ package com.averniko.messager.data.login
 
 import com.averniko.messager.data.Result
 import com.averniko.messager.data.model.LoggedInUser
-import kotlinx.coroutines.*
 import org.json.JSONObject
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection

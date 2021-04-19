@@ -1,4 +1,4 @@
-package com.averniko.login.ui.login
+package com.averniko.messager.ui.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

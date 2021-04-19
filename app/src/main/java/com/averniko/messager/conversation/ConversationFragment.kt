@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.size
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -32,7 +33,7 @@ class ConversationFragment: Fragment() {
         val adapter = ConversationAdapter()
         binding.messagesList.adapter = adapter
 
-        viewModel.conversation.observe(viewLifecycleOwner, Observer { conversations ->
+        viewModel.conversations.observe(viewLifecycleOwner, Observer { conversations ->
             if (conversations != null) {
                 val conversation = conversations.find { conversation ->
                     conversation.interlocutor == args.interlocutor
@@ -44,6 +45,7 @@ class ConversationFragment: Fragment() {
 
         binding.sendMessageButton.setOnClickListener {
             viewModel.onSendMessage(Message(sender = "kek", receiver = args.interlocutor, text = binding.messageTextInput.text.toString()))
+            binding.messagesList.smoothScrollToPosition(adapter.itemCount)
         }
 
         return binding.root

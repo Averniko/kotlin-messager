@@ -1,4 +1,4 @@
-package com.averniko.login.ui.login
+package com.averniko.messager.ui.login
 
 data class LoggedInUserView(
         val displayName: String
