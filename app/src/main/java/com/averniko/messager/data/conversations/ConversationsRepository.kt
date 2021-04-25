@@ -76,6 +76,17 @@ class ConversationsRepository private constructor(val dataSource: ConversationsD
         setConversationList(resultList)
     }
 
+    fun addReceivedMessage(message: Message) {
+        val resultList = conversationList.value?.map { conversation ->
+            if (conversation.interlocutor == message.sender) {
+                conversation.messages = conversation.messages.plus(message)
+                return@map conversation
+            }
+            return@map conversation
+        }
+        setConversationList(resultList)
+    }
+
     private fun setConversationList(conversationList: List<Conversation>?) {
         this._conversationList.postValue(conversationList)
     }

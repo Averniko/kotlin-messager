@@ -1,12 +1,7 @@
 package com.averniko.messager.conversationlist
 
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.averniko.messager.R
 import com.averniko.messager.data.model.Conversation
 
 class ConversationListAdapter(var onItemClick: ((Conversation) -> Unit)? = null) : RecyclerView.Adapter<ConversationListViewHolder>() {

@@ -44,7 +44,8 @@ class ConversationsDataSource {
                             Message(
                                 sender = lastMessage.getString("sender"),
                                 receiver = lastMessage.getString("receiver"),
-                                text = lastMessage.getString("text")
+                                text = lastMessage.getString("text"),
+                                isSend = loginRepository.user?.login == lastMessage.getString("sender")
                             )
                         )
                     }
@@ -66,7 +67,8 @@ class ConversationsDataSource {
 
     fun loadMessages(interlocutor: String): Result<List<Message>> {
         var text: String
-        var queryParam = URLEncoder.encode("login", "UTF-8") + "=" + URLEncoder.encode(interlocutor, "UTF-8")
+        var queryParam =
+            URLEncoder.encode("login", "UTF-8") + "=" + URLEncoder.encode(interlocutor, "UTF-8")
         val connection = URL("${messagesURL}?" + queryParam).openConnection() as HttpURLConnection
         connection.requestMethod = "GET"
         connection.setRequestProperty("Content-Type", "application/json; charset=utf-8")
@@ -84,7 +86,8 @@ class ConversationsDataSource {
                     Message(
                         sender = it.getString("from"),
                         receiver = it.getString("to"),
-                        text = it.getString("text")
+                        text = it.getString("text"),
+                        isSend = loginRepository.user?.login == it.getString("from")
                     )
                 }
             if (messagesList == null)
@@ -112,13 +115,13 @@ class ConversationsDataSource {
             wr.write(jsonInputString)
             wr.flush()
             connection.connect()
-
+            val text =
+                connection.inputStream.use { it.reader().use { reader -> reader.readText() } }
             return Result.Success(interlocutor)
         } catch (e: Exception) {
             println(e)
             return Result.Error(e)
-        }
-        finally {
+        } finally {
             connection.disconnect()
         }
     }
@@ -145,8 +148,7 @@ class ConversationsDataSource {
         } catch (e: Exception) {
             println(e)
             return Result.Error(e)
-        }
-        finally {
+        } finally {
             connection.disconnect()
         }
     }

@@ -9,16 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
+
 import androidx.navigation.fragment.findNavController
 import com.averniko.messager.R
-import com.averniko.messager.data.conversations.ConversationsDataSource
-import com.averniko.messager.data.conversations.ConversationsRepository
 import com.averniko.messager.databinding.FragmentConversationListBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+
 
 class ConversationListFragment : Fragment() {
 
