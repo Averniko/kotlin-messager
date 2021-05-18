@@ -5,7 +5,7 @@
 
     <fragment
         android:id="@+id/conversationListFragment"
-        android:name="com.averniko.messager.conversationlist.ConversationListFragment"
+        android:name="com.averniko.messenger.conversationlist.ConversationListFragment"
         android:label="ConversationListFragment" >
         <action
             android:id="@+id/action_conversationListFragment_to_conversationFragment"
@@ -13,7 +13,7 @@
     </fragment>
     <fragment
         android:id="@+id/conversationFragment"
-        android:name="com.averniko.messager.conversation.ConversationFragment"
+        android:name="com.averniko.messenger.conversation.ConversationFragment"
         android:label="ConversationFragment" >
         <argument
             android:name="interlocutor"

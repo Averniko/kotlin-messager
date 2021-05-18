@@ -11,4 +11,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="send_message">Send</string>
+    <string name="channel_name">Messages</string>
+    <string name="channel_description">Messages channel</string>
+    <string name="notification_title">New message</string>
 </resources>
